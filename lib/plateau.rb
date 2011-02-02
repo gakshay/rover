@@ -1,12 +1,6 @@
 #!/usr/bin/env ruby -KU
 
 require 'rubygems'
-# GLOBAL rotation constant hash, which stores left and right value of each compass direction
-HEAD = {"N" => %w(W E),
-  "E" => %w(N S),
-  "W" => %w(S N),
-  "S" => %w(E W)
-}
 
 # GLOBAL variable to store plateau upper-right coordinates, defaults to 5,5
 $X = 5
