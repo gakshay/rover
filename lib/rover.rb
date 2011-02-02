@@ -1,18 +1,16 @@
 #!/usr/bin/env ruby -KU
 
 require "rubygems"
-require File.dirname(__FILE__) + '/plateau.rb'
-require File.dirname(__FILE__) + '/navigation.rb'
 require File.dirname(__FILE__) + '/movement.rb'
 
 class Rover
   # x co-ordinate, y-co-ordinate, o-orientation, sequence to store the movement on each instruction
   attr_accessor :x, :y, :o, :sequence
   
+  # rover initialization
   def initialize(xyo)
-    raise "ERROR: plateau area not initialzed" unless $X && $Y
     x, y, o = xyo.chomp.scan(/\w+/)
-    unless x.to_i && y.to_i && o && Navigation::HEAD.include?(o.upcase)
+    unless x.to_i && y.to_i && o && Navigation.valid?(o.upcase)
       raise "ERROR: wrong input USAGE: 1 2 N"
     end
     if Plateau.valid_position?(x.to_i, y.to_i)
@@ -25,7 +23,7 @@ class Rover
     end
   end
   
-  # input: "LMLMMLMLMLRR"
+  # reads the input "LMLMMLMLMLRR" sequence
   # returns: final position of the rover or error message
   def explore(instructions)
     instructions = instructions.upcase
@@ -34,14 +32,13 @@ class Rover
         when /(L|R)/
           self.sequence << @move.rotate(instruction)
         when 'M'
-          self.sequence << @move.forward
+          self.sequence << @move.move
         else 
-          self.sequence << "ERROR: wrong input #{instruction}, [USAGE: L/R/M]"
+          self.sequence << "ERROR: wrong input #{instruction} USAGE: [L/R/M]"
       end
     }
     final_position
   end
-  
   
   private
   
@@ -59,4 +56,5 @@ class Rover
   def reset
     self.x, self.y, self.o = self.sequence.first
   end
+  
 end # Rover class end

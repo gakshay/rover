@@ -23,4 +23,5 @@ class Plateau
     end
     return true
   end
+  
 end # Plateau class end
